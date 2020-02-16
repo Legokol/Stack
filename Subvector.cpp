@@ -3,54 +3,51 @@
 //
 
 #include "Stack.h"
+#include "Subvector.h"
 
-class SubVector : public Stack {
-public:
-    SubVector() {
-        mas = new int[0];
-        top = 0;
-        capacity = 0;
-    }
 
-    ~SubVector() {
-        delete[] mas;
-    }
+SubVector::SubVector() {
+    mas = new int[0];
+    top = 0;
+    capacity = 0;
+}
 
-    void resize(unsigned int new_capacity) {
-        int *new_mas;
-        new_mas = new int[new_capacity];
-        for (unsigned int i = 0; i < top; i++)
-            new_mas[i] = mas[i];
-        delete[] mas;
-        mas = new_mas;
-        capacity = new_capacity;
-    }
+SubVector::~SubVector() {
+    delete[] mas;
+}
 
-    void push_back(int d) {
-        if (top < capacity) {
-            top++;
-            mas[top] = d;
-            return;
-        }
-        resize(capacity + 1);
+void SubVector::resize(unsigned int new_capacity) {
+    int *new_mas;
+    new_mas = new int[new_capacity];
+    for (unsigned int i = 0; i < top; i++)
+        new_mas[i] = mas[i];
+    delete[] mas;
+    mas = new_mas;
+    capacity = new_capacity;
+}
+
+void SubVector::push_back(int d) {
+    if (top < capacity) {
         top++;
-        mas[top] = d;
+        mas[top-1] = d;
+        return;
     }
+    resize(capacity + 1);
+    top++;
+    mas[top-1] = d;
+}
 
-    int pop_back() {
-        top--;
-        return mas[top + 1];
-    }
+int SubVector::pop_back() {
+    top--;
+    return mas[top];
+}
 
-    void shrink_to_fit() {
-        resize(top);
-    }
+void SubVector::shrink_to_fit() {
+    resize(top);
+}
 
-    void clear() {
-        top = 0;
-    }
+void SubVector::clear() {
+    top = 0;
+}
 
-private:
-    int *mas;
-    unsigned int top, capacity;
-};
+

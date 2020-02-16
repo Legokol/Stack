@@ -1,20 +1,23 @@
 #include <iostream>
 #include "Stack.h"
 #include "Subvector.h"
+#include "SubForwardList.h"
 
 using namespace std;
 
 int main() {
-    Stack *s;
-    s = new SubVector();
-    int n, d;
+    SubForwardList *s;
+    s = new SubForwardList();
+    int n, d, w;
     cin >> n;
     for (int i = 0; i < n; i++) {
         cin >> d;
         s->push_back(d);
     }
-    for (int i = 0; i < n; i++) {
-        cout << s->pop_back() << ' ';
-    }
+    //cout << s->size();
+    cin >> w >> d;
+    s->push_where(w, d);
+    for (int i = 0; i < n + 1; i++)
+        cout << s->pop_forward() << ' ';
     return 0;
 }
