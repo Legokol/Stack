@@ -14,6 +14,15 @@ SubForwardList::SubForwardList() {
 }
 
 SubForwardList::~SubForwardList() {
+    unsigned int n = size();
+    SubForwardList **s = new SubForwardList *[n + 1];
+    SubForwardList *c = this;
+    s[0] = c;
+    for (unsigned int i = 1; i < n + 1; i++) {
+        c = c->next;
+        s[i] = c;
+    }
+    delete[] s;
 }
 
 unsigned int SubForwardList::size() {
@@ -78,13 +87,37 @@ int SubForwardList::pop_where(unsigned int where) {
         cout << "Can't pop. Number is higher than size" << endl;
         return INT_MAX;
     }
-
+    SubForwardList *s = this;
+    for (unsigned int i = 1; i < where; i++)
+        s = s->next;
+    SubForwardList *n = s->next;
+    int d = n->data;
+    s->next = n->next;
+    delete n;
+    return d;
 }
 
 void SubForwardList::erase_where(unsigned int where) {
-
+    if (where > size()) {
+        cout << "Can't erase. Number is higher than size" << endl;
+        return;
+    }
+    SubForwardList *s = this;
+    for (unsigned int i = 1; i < where; i++)
+        s = s->next;
+    SubForwardList *n = s->next;
+    s->next = n->next;
+    delete n;
 }
 
 void SubForwardList::clear() {
-
+    unsigned int n = size();
+    SubForwardList **s = new SubForwardList *[n];
+    SubForwardList *c = this;
+    for (unsigned int i; i < n; i++) {
+        c = c->next;
+        s[i] = c;
+    }
+    delete[] s;
+    next = NULL;
 }

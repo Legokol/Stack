@@ -15,9 +15,9 @@ int main() {
         s->push_back(d);
     }
     //cout << s->size();
-    cin >> w >> d;
-    s->push_where(w, d);
-    for (int i = 0; i < n + 1; i++)
+    cin >> w;
+    s->erase_where(w);
+    for (int i = 0; i < n - 1; i++)
         cout << s->pop_forward() << ' ';
     return 0;
 }
