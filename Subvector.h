@@ -1,23 +1,21 @@
-//
-// Created by Николай on 15.02.2020.
-//
-
-#include "Stack.h"
 #ifndef STACK_SUBVECTOR_H
 #define STACK_SUBVECTOR_H
 
+#include "Stack.h"
 
-class SubVector : public Stack {
+class Subvector : public Stack {
 public:
-    SubVector();
+    Subvector();
 
-    ~SubVector();
+    ~Subvector();
 
     void resize(unsigned int new_capacity);
 
     void push_back(int d);
 
     int pop_back();
+
+    unsigned int get_capacity();
 
     void shrink_to_fit();
 

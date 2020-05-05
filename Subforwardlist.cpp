@@ -1,22 +1,17 @@
-//
-// Created by Николай on 16.02.2020.
-//
-
-#include "Stack.h"
-#include "SubForwardList.h"
+#include "Subforwardlist.h"
 #include <iostream>
 
 using namespace std;
 
-SubForwardList::SubForwardList() {
+Subforwardlist::Subforwardlist() {
     data = 0;
     next = NULL;
 }
 
-SubForwardList::~SubForwardList() {
-    unsigned int n = size();
-    SubForwardList **s = new SubForwardList *[n + 1];
-    SubForwardList *c = this;
+Subforwardlist::~Subforwardlist() {
+    unsigned int n = get_size();
+    Subforwardlist **s = new Subforwardlist *[n + 1];
+    Subforwardlist *c = this;
     s[0] = c;
     for (unsigned int i = 1; i < n + 1; i++) {
         c = c->next;
@@ -25,9 +20,9 @@ SubForwardList::~SubForwardList() {
     delete[] s;
 }
 
-unsigned int SubForwardList::size() {
+unsigned int Subforwardlist::get_size() {
     unsigned int s = 0;
-    SubForwardList *n = this;
+    Subforwardlist *n = this;
     while (n->next != NULL) {
         s++;
         n = n->next;
@@ -35,17 +30,17 @@ unsigned int SubForwardList::size() {
     return s;
 }
 
-void SubForwardList::push_back(int d) {
-    SubForwardList *s = this;
+void Subforwardlist::push_back(int d) {
+    Subforwardlist *s = this;
     while (s->next != NULL)
         s = s->next;
-    SubForwardList *n = new SubForwardList();
+    Subforwardlist *n = new Subforwardlist();
     n->data = d;
     s->next = n;
 }
 
-int SubForwardList::pop_back() {
-    SubForwardList *s = this;
+int Subforwardlist::pop_back() {
+    Subforwardlist *s = this;
     while (s->next->next != NULL)
         s = s->next;
     int d = s->next->data;
@@ -54,67 +49,67 @@ int SubForwardList::pop_back() {
     return d;
 }
 
-void SubForwardList::push_forward(int d) {
-    SubForwardList *n = new SubForwardList();
+void Subforwardlist::push_forward(int d) {
+    Subforwardlist *n = new Subforwardlist();
     n->data = d;
     n->next = next;
     next = n;
     delete n;
 }
 
-int SubForwardList::pop_forward() {
+int Subforwardlist::pop_forward() {
     int d = next->data;
     next = next->next;
     return d;
 }
 
-void SubForwardList::push_where(unsigned int where, int d) {
-    if (where > size()) {
+void Subforwardlist::push_where(unsigned int where, int d) {
+    if (where > get_size()) {
         cout << "Can't push. Number is higher than size" << endl;
         return;
     }
-    SubForwardList *s = this;
+    Subforwardlist *s = this;
     for (unsigned int i = 1; i < where; i++)
         s = s->next;
-    SubForwardList *n = new SubForwardList();
+    Subforwardlist *n = new Subforwardlist();
     n->data = d;
     n->next = s->next;
     s->next = n;
 }
 
-int SubForwardList::pop_where(unsigned int where) {
-    if (where > size()) {
+int Subforwardlist::pop_where(unsigned int where) {
+    if (where > get_size()) {
         cout << "Can't pop. Number is higher than size" << endl;
         return INT_MAX;
     }
-    SubForwardList *s = this;
+    Subforwardlist *s = this;
     for (unsigned int i = 1; i < where; i++)
         s = s->next;
-    SubForwardList *n = s->next;
+    Subforwardlist *n = s->next;
     int d = n->data;
     s->next = n->next;
     delete n;
     return d;
 }
 
-void SubForwardList::erase_where(unsigned int where) {
-    if (where > size()) {
+void Subforwardlist::erase_where(unsigned int where) {
+    if (where > get_size()) {
         cout << "Can't erase. Number is higher than size" << endl;
         return;
     }
-    SubForwardList *s = this;
+    Subforwardlist *s = this;
     for (unsigned int i = 1; i < where; i++)
         s = s->next;
-    SubForwardList *n = s->next;
+    Subforwardlist *n = s->next;
     s->next = n->next;
     delete n;
 }
 
-void SubForwardList::clear() {
-    unsigned int n = size();
-    SubForwardList **s = new SubForwardList *[n];
-    SubForwardList *c = this;
-    for (unsigned int i; i < n; i++) {
+void Subforwardlist::clear() {
+    unsigned int n = get_size();
+    Subforwardlist **s = new Subforwardlist *[n];
+    Subforwardlist *c = this;
+    for (unsigned int i = 0; i < n; i++) {
         c = c->next;
         s[i] = c;
     }

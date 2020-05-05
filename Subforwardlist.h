@@ -1,17 +1,13 @@
-//
-// Created by Николай on 16.02.2020.
-//
-#include "Stack.h"
-
 #ifndef STACK_SUBFORWARDLIST_H
 #define STACK_SUBFORWARDLIST_H
 
+#include "Stack.h"
 
-class SubForwardList : public Stack {
+class Subforwardlist : public Stack {
 public:
-    SubForwardList();
+    Subforwardlist();
 
-    ~SubForwardList();
+    ~Subforwardlist();
 
     void push_back(int d);
 
@@ -27,11 +23,11 @@ public:
 
     void erase_where(unsigned int where);
 
-    unsigned int size();
+    unsigned int get_size();
 
     void clear();
 private:
-    SubForwardList *next;
+    Subforwardlist *next;
     int data;
 };
 

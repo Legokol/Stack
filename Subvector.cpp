@@ -1,52 +1,55 @@
-//
-// Created by Николай on 15.02.2020.
-//
-
-#include "Stack.h"
+#include <stdexcept>
 #include "Subvector.h"
 
-
-SubVector::SubVector() {
-    mas = new int[0];
+Subvector::Subvector() {
+    mas = new int[1];
     top = 0;
-    capacity = 0;
+    capacity = 1;
 }
 
-SubVector::~SubVector() {
+Subvector::~Subvector() {
     delete[] mas;
 }
 
-void SubVector::resize(unsigned int new_capacity) {
-    int *new_mas;
-    new_mas = new int[new_capacity];
+void Subvector::resize(unsigned int new_capacity) {
+    int *new_mas = new int[new_capacity];
+    capacity = new_capacity;
+    if (top > new_capacity)
+        top = new_capacity;
     for (unsigned int i = 0; i < top; i++)
         new_mas[i] = mas[i];
     delete[] mas;
     mas = new_mas;
-    capacity = new_capacity;
 }
 
-void SubVector::push_back(int d) {
+void Subvector::push_back(int d) {
     if (top < capacity) {
         top++;
-        mas[top-1] = d;
+        mas[top - 1] = d;
         return;
     }
-    resize(capacity + 1);
+    resize(capacity * 2);
     top++;
-    mas[top-1] = d;
+    mas[top - 1] = d;
 }
 
-int SubVector::pop_back() {
+int Subvector::pop_back() {
+    if (top == 0)
+        return 0;
+        //throw std::runtime_error("Stack is empty");
     top--;
     return mas[top];
 }
 
-void SubVector::shrink_to_fit() {
+unsigned int Subvector::get_capacity() {
+    return capacity;
+}
+
+void Subvector::shrink_to_fit() {
     resize(top);
 }
 
-void SubVector::clear() {
+void Subvector::clear() {
     top = 0;
 }
 

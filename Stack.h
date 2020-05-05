@@ -1,6 +1,3 @@
-//
-// Created by Николай on 15.02.2020.
-//
 #ifndef STACK_STACK_H
 #define STACK_STACK_H
 
