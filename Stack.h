@@ -5,6 +5,8 @@
 
 class Stack {
 public:
+    virtual ~Stack() {};
+
     virtual void push_back(int d) = 0;
 
     virtual int pop_back() = 0;

@@ -104,6 +104,7 @@ void Subforwardlist::clear() {
     Subforwardlist *s = next, *c = next;
     while (s->next != nullptr) {
         s = s->next;
+        c->next = nullptr;
         delete c;
         c = s;
     }
