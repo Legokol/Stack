@@ -1,4 +1,3 @@
-#include <stdexcept>
 #include "Subvector.h"
 
 Subvector::Subvector() {

@@ -1,51 +1,39 @@
 #include "Subforwardlist.h"
-#include <iostream>
-
-using namespace std;
 
 Subforwardlist::Subforwardlist() {
+    size = 0;
     data = 0;
-    next = NULL;
+    next = nullptr;
 }
 
 Subforwardlist::~Subforwardlist() {
-    unsigned int n = get_size();
-    Subforwardlist **s = new Subforwardlist *[n + 1];
-    Subforwardlist *c = this;
-    s[0] = c;
-    for (unsigned int i = 1; i < n + 1; i++) {
-        c = c->next;
-        s[i] = c;
-    }
-    delete[] s;
+    clear();
 }
 
 unsigned int Subforwardlist::get_size() {
-    unsigned int s = 0;
-    Subforwardlist *n = this;
-    while (n->next != NULL) {
-        s++;
-        n = n->next;
-    }
-    return s;
+    return size;
 }
 
 void Subforwardlist::push_back(int d) {
     Subforwardlist *s = this;
-    while (s->next != NULL)
+    while (s->next != nullptr)
         s = s->next;
     Subforwardlist *n = new Subforwardlist();
     n->data = d;
     s->next = n;
+    size++;
 }
 
 int Subforwardlist::pop_back() {
+    if (next == nullptr)
+        return 0;
     Subforwardlist *s = this;
-    while (s->next->next != NULL)
+    while (s->next->next != nullptr)
         s = s->next;
     int d = s->next->data;
     delete s->next;
-    s->next = NULL;
+    s->next = nullptr;
+    size--;
     return d;
 }
 
@@ -54,65 +42,72 @@ void Subforwardlist::push_forward(int d) {
     n->data = d;
     n->next = next;
     next = n;
-    delete n;
+    size++;
 }
 
 int Subforwardlist::pop_forward() {
-    int d = next->data;
-    next = next->next;
+    if (next == nullptr)
+        return 0;
+    Subforwardlist *s = next;
+    int d = s->data;
+    next = s->next;
+    s->next = nullptr;
+    delete s;
+    size--;
     return d;
 }
 
 void Subforwardlist::push_where(unsigned int where, int d) {
-    if (where > get_size()) {
-        cout << "Can't push. Number is higher than size" << endl;
+    if (where >= size || where < 0)
         return;
-    }
     Subforwardlist *s = this;
-    for (unsigned int i = 1; i < where; i++)
+    for (unsigned int i = 0; i < where; i++)
         s = s->next;
     Subforwardlist *n = new Subforwardlist();
     n->data = d;
     n->next = s->next;
     s->next = n;
+    size++;
 }
 
 int Subforwardlist::pop_where(unsigned int where) {
-    if (where > get_size()) {
-        cout << "Can't pop. Number is higher than size" << endl;
-        return INT_MAX;
-    }
+    if (where >= size || where < 0)
+        return 0;
     Subforwardlist *s = this;
-    for (unsigned int i = 1; i < where; i++)
+    for (unsigned int i = 0; i < where; i++)
         s = s->next;
     Subforwardlist *n = s->next;
     int d = n->data;
     s->next = n->next;
+    n->next = nullptr;
     delete n;
+    size--;
     return d;
 }
 
 void Subforwardlist::erase_where(unsigned int where) {
-    if (where > get_size()) {
-        cout << "Can't erase. Number is higher than size" << endl;
+    if (where >= size || where < 0)
         return;
-    }
     Subforwardlist *s = this;
-    for (unsigned int i = 1; i < where; i++)
+    for (unsigned int i = 0; i < where; i++)
         s = s->next;
     Subforwardlist *n = s->next;
     s->next = n->next;
+    n->next = nullptr;
     delete n;
+    size --;
 }
 
 void Subforwardlist::clear() {
-    unsigned int n = get_size();
-    Subforwardlist **s = new Subforwardlist *[n];
-    Subforwardlist *c = this;
-    for (unsigned int i = 0; i < n; i++) {
-        c = c->next;
-        s[i] = c;
+    if (next == nullptr)
+        return;
+    Subforwardlist *s = next, *c = next;
+    while (s->next != nullptr) {
+        s = s->next;
+        delete c;
+        c = s;
     }
-    delete[] s;
-    next = NULL;
+    delete c;
+    size = 0;
+    next = nullptr;
 }

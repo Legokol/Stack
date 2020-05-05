@@ -29,6 +29,7 @@ public:
 private:
     Subforwardlist *next;
     int data;
+    unsigned int size;
 };
 
 
